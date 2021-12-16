@@ -1,0 +1,113 @@
+1. Problem: Coin Change Problem (gfg)
+   Code:    long long int count(int arr[], int m, int n) {
+                long long int dp[n+1];
+                for(int i=0; i<=n ;i++){
+                    dp[i] = 0;
+                }
+                dp[0] = 1;
+                // Add 1 for each coin value in the 1-n dp
+                for(int i=0; i<m ;i++){    
+                    for(int j=1; j<=n ;j++){
+                        if(arr[i] <= j)
+                            dp[j] += dp[j-arr[i]]; 
+                    }
+                }
+                return dp[n];
+                // code here.
+            }
+
+2. Problem: KnapSack Problem
+   Code:    int knapSack(int W, int wt[], int val[], int n)
+            {
+                int i, w;
+                vector<vector<int>> K(n + 1, vector<int>(W + 1));
+            
+                // Build table K[][] in bottom up manner
+                for(i = 0; i <= n; i++)
+                {
+                    for(w = 0; w <= W; w++)
+                    {
+                        if (i == 0 || w == 0)
+                            K[i][w] = 0;
+                        else if (wt[i - 1] <= w)
+                            K[i][w] = max(val[i - 1] +
+                                            K[i - 1][w - wt[i - 1]],
+                                            K[i - 1][w]);
+                        else
+                            K[i][w] = K[i - 1][w];
+                    }
+                }
+                return K[n][W];
+            }        
+
+3. Problem: nCr (combination problem gfg)
+   Approach:nCr = (n-1)Cr + (n-1)C(r-1)
+   Code:    // Returns value of Binomial Coefficient C(n, k)
+            int binomialCoeffUtil(int n, int k, int** dp)
+            {
+                // If value in lookup table then return
+                if (dp[n][k] != -1) //     
+                    return dp[n][k];
+            
+                // store value in a table before return
+                if (k == 0) {
+                    dp[n][k] = 1;
+                    return dp[n][k];
+                }
+                
+                // store value in table before return
+                if (k == n) {
+                    dp[n][k] = 1; 
+                    return dp[n][k];
+                }
+                
+                // save value in lookup table before return
+                dp[n][k] = binomialCoeffUtil(n - 1, k - 1, dp) +
+                        binomialCoeffUtil(n - 1, k, dp);
+                return dp[n][k];
+            }
+
+4. Problem: Permutation of n,r (gfg)
+   Approach:P(n, k) = P(n-1, k) + k* P(n-1, k-1)   OR just get the product of n to n-k+1
+   Code:    int PermutationCoeff(int n, int k)
+            {
+                int P = 1;
+            
+                // Compute n*(n-1)*(n-2)....(n-k+1)
+                for (int i = 0; i < k; i++)
+                    P *= (n-i) ;
+            
+                return P;
+            }
+
+5. Problem: Catalan Numbers (gfg)
+   Approach:C0=1 and C{n+1}=sum( {i=0 to n} Ci*C{n-i} ) for n>=0 
+   Similar problems -> a) Number of BST's for n nodes               = nth Catalan no
+                       b) Number of unlabelled binary trees n nodes = nth Catalan no 
+                       c) Number of ways for proper n parantheses   = nth Catalan no
+                       d) Mountain Ranges (number of ways up-down without going below sea level)
+                                                                    = nth Catalan no
+                       e) Dyck Words (no of x >= no of y at any indx of string created cond X==Y)
+                                                                    = nth Catalan no
+                       f) Path on grid in which you can't go below(or above) diagonal 
+                                                                    = nth Catalan no 
+                       g) Connect Disjoint Chords (given n pairs of points and we have to find no ways to connect 
+                       them without anyone intersecting)            = nth Catalan no
+   Code:    unsigned long int catalanDP(unsigned int n)
+            {
+                // Table to store results of subproblems
+                unsigned long int catalan[n + 1];
+            
+                // Initialize first two values in table
+                catalan[0] = catalan[1] = 1;
+            
+                // Fill entries in catalan[] using recursive formula
+                for (int i = 2; i <= n; i++) {
+                    catalan[i] = 0;
+                    for (int j = 0; j < i; j++)
+                        catalan[i] += catalan[j] * catalan[i - j - 1];
+                }
+            
+                // Return last entry
+                return catalan[n];
+            }    
