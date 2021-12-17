@@ -105,7 +105,7 @@
                 for (int i = 2; i <= n; i++) {
                     catalan[i] = 0;
                     for (int j = 0; j < i; j++)
-                        catalan[i] += catalan[j] * catalan[i - j - 1];
+                        catalan[i] += catalan[j] * catalan[i - j - 1]; //-1 is because computing for n+1 by using n
                 }
             
                 // Return last entry
