@@ -352,3 +352,81 @@
                 return fun(0, 0, x, y, s1, s2);
             }  
 
+14. Problem: Longest Repeating Subsequence (gfg)
+    Approach:Same as LCS on 1 string just dont add 1 for i==j.
+    Code:   int dp[1005][1005];
+            int fun(string s, int i, int j, int n){
+                if(i>=n || j>=n){
+                    return 0;
+                }
+                if (dp[i][j] != -1){
+                    return dp[i][j];
+                }
+                int ans = 0;
+                if(i!=j && s[i]==s[j]){
+                    ans = 1 + fun(s, i+1, j+1, n);
+                }
+                else{
+                    ans = max(fun(s, i+1, j, n), fun(s, i, j+1, n));
+                }
+                return dp[i][j] = ans;
+            }
+            int LongestRepeatingSubsequence(string s){
+                // Code here
+                for(int i=0; i<1005 ;i++){
+                    for(int j=0; j<1005 ;j++){
+                        dp[i][j] = -1;
+                    }
+                }
+                return fun(s, 0, 0, s.length());
+            }
+
+15. Problem: Longest Increasing Subsequence
+    Approach:Linear DP storing longest inc sub till ith position(including arr[i]) and Calculate 
+             dp[i] = 1 + max(dp[j] where arr[j]<arr[i])
+    Code:   int longestSubsequence(int n, int a[])
+            {
+            // your code here
+                int dp[n];
+                dp[0] = 1;
+                for(int i=1; i<n ;i++){
+                    int ans = 0;
+                    for(int j=0; j<i ;j++){
+                        if(a[j]<a[i]){
+                            ans = max(ans, dp[j]);
+                        }
+                    }
+                    dp[i] = 1 + ans;
+                }
+                int ans = 0;
+                for(int i=0; i<n ;i++){
+                    ans = max(ans, dp[i]);
+                }
+                return ans;
+            }
+
+16. Problem: LCS of three strings (gfg)
+    Approach:Same as lcs for 2 strings
+    Code:   int LCSof3 (string s, string t, string u, int n1, int n2, int n3)
+            {
+                // your code here
+                int dp[n1+1][n2+1][n3+1];
+                
+                for(int i=0; i<=n1 ;i++){
+                    for(int j=0; j<=n2 ;j++){
+                        for(int k=0; k<=n3 ;k++){
+                            if(i==0 || j==0 || k==0){
+                                dp[i][j][k] = 0;
+                            }
+                            else if (s[i-1]==t[j-1] && t[j-1]==u[k-1]){
+                                dp[i][j][k] = 1+ dp[i-1][j-1][k-1];
+                            }
+                            else{
+                                dp[i][j][k] = max(dp[i-1][j][k], max(dp[i][j-1][k], dp[i][j][k-1]));
+                            }
+                        }
+                    }
+                }
+                return dp[n1][n2][n3];
+            }
+
