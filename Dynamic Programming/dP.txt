@@ -430,3 +430,40 @@
                 return dp[n1][n2][n3];
             }
 
+17. Problem: Maximum Sum Increasing Subsequence
+    Approach:Similar like Increasing Subsequence
+    Code:   int maxSumIS(int arr[], int n)  
+            {  
+                // Your code goes here
+                vector<int> dp(n, 0);
+                for(int i=0; i<n ;i++){
+                    int m = 0;
+                    for(int j=0; j<i ;j++){
+                        if (arr[j]<arr[i]){
+                            m = max(m, dp[j]);
+                        }
+                    }
+                    dp[i] = m + arr[i];
+                }
+                int ans = 0;
+                for(int i=0; i<n ;i++){
+                    ans = max(ans, dp[i]);
+                }
+                return ans;
+            }  
+
+18. Problem: Stickler Thief (gfg)
+    Approach:max sum from 0toi = max ( max sum from 0toi-1, arr[i]+max sum from 0toi-2 )
+    Code:   int FindMaxSum(int arr[], int n)
+            {
+                // Your code here
+                int dp[n+1];
+                dp[0] = 0;
+                dp[1] = arr[0];
+                for(int i=2; i<=n ;i++){
+                    dp[i] = max(dp[i-1], dp[i-2]+arr[i-1]);
+                    // cout << dp[i] << " ";
+                }
+                return dp[n];
+            }
+
