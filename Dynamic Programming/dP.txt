@@ -467,3 +467,37 @@
                 return dp[n];
             }
 
+19. Problem: Egg Dropping Problem
+    Approach:eggDrop(n, k) ==> Minimum number of trials needed to find the critical 
+             floor in worst case.
+             eggDrop(n, k) = 1 + min{max(eggDrop(n – 1, x – 1), eggDrop(n, k – x)), where x is in {1, 2, …, k}}
+    Code:   int dp[205][205];
+    
+            int fun(int n, int k){
+                if (k == 1 || k == 0)
+                return k;
+            
+                if (n == 1)
+                return k;
+                if(dp[n][k]!=-1){
+                    return dp[n][k];
+                }
+                int ans = INT_MAX;
+                for(int i=1; i<=k ;i++){
+                    ans = min(ans, max(fun(n-1,i-1), fun(n,k-i)));
+                }
+                return dp[n][k] = 1+ans;
+            }
+            
+            int eggDrop(int n, int k) 
+            {
+                // your code here
+                for(int i=0; i<205 ;i++){
+                    for(int j=0; j<205 ;j++){
+                        dp[i][j] = -1;
+                    }
+                }
+                return fun(n, k);
+            }
+
+            
