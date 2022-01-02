@@ -500,4 +500,58 @@
                 return fun(n, k);
             }
 
+20. Problem: Max length Chain
+    Approach:Use Longest Increasing Subsequence approach on a sorted array acc to first.
+    Code:   bool comp(struct val a, struct val b){
+                return a.first < b.first;
+            }
+
+            /*You are required to complete this method*/
+            int maxChainLen(struct val p[],int n)
+            {
+            //Your code here
+                sort(p, p+n, comp);
+                int dp[n];
+                dp[0] = 1;
+                for(int i=1; i<n ;i++){
+                    int ans = 0;
+                    for(int j=0; j<i ;j++){
+                        if(p[j].second < p[i].first){
+                            ans = max(ans, dp[j]);
+                        }
+                    }
+                    dp[i] = 1 + ans;
+                }
+                return dp[n-1];
+            }
+
+21. Problem: Maximum difference of zeros and ones in binary string 
+    Code:   int maxSubstring(string s)
+            {
+                // Your code goes here
+                int n = s.length();
+                int dp[n];
+                dp[0]=-1;
+                if(s[0]=='0'){
+                    dp[0] = 1;
+                }
+                for(int i=1; i<n ;i++){
+                    if(s[i]=='0'){
+                    int tmp = 0;
+                    if(dp[i-1]>0){
+                        tmp = dp[i-1];
+                    } 
+                    dp[i] = 1 + tmp;
+                    }
+                    else{
+                        dp[i] = dp[i-1]-1;
+                    }
+                }
+                int ans = -1;
+                for(int i=0; i<n ;i++){
+                    ans = max(ans, dp[i]);
+                }
+                return ans;
+            }
+
             
